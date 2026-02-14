@@ -1,0 +1,45 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - main [ref=e4]:
+      - generic [ref=e6]:
+        - generic [ref=e8]:
+          - paragraph [ref=e9]: Secure authentication
+          - heading "Sign in to turn meetings into momentum." [level=1] [ref=e11]
+          - paragraph [ref=e12]: Sign in to access Nifty Ai and analyze conversations, capture decisions, and keep your tasks perfectly organized.
+        - generic [ref=e13]:
+          - generic [ref=e14]:
+            - img [ref=e16]
+            - heading "Sign In" [level=3] [ref=e19]
+            - paragraph [ref=e20]: Enter your credentials to access the dashboard.
+          - generic [ref=e21]:
+            - generic [ref=e22]:
+              - generic [ref=e23]:
+                - text: Username
+                - textbox "Username" [ref=e24]:
+                  - /placeholder: Enter username
+              - generic [ref=e25]:
+                - text: Password
+                - textbox "Password" [ref=e26]:
+                  - /placeholder: Enter password
+              - button "Sign In" [ref=e27] [cursor=pointer]
+            - paragraph [ref=e28]:
+              - text: Need help first?
+              - link "View user guide" [ref=e29] [cursor=pointer]:
+                - /url: /user-guide
+    - contentinfo [ref=e30]:
+      - generic [ref=e31]:
+        - generic [ref=e32]: © 2026 Nifty Ai
+        - generic [ref=e33]:
+          - link "Privacy Policy" [ref=e34] [cursor=pointer]:
+            - /url: /privacy-policy
+          - link "Terms of Use" [ref=e35] [cursor=pointer]:
+            - /url: /terms-of-use
+          - link "User Guide" [ref=e36] [cursor=pointer]:
+            - /url: /user-guide
+          - link "Support" [ref=e37] [cursor=pointer]:
+            - /url: /support
+  - region "Notifications alt+T"
+```

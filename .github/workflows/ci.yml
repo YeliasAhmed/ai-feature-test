@@ -1,0 +1,60 @@
+# CI: build frontend and run E2E tests. If any step fails, the pipeline fails and deployment must not proceed.
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build frontend
+        run: npm run build
+
+      - name: Install Playwright E2E dependencies
+        working-directory: playwright-e2e
+        run: npm ci
+
+      - name: Install Playwright browsers
+        working-directory: playwright-e2e
+        run: npx playwright install --with-deps chromium
+
+      - name: Start preview server and run E2E tests
+        run: |
+          npm run preview &
+          SERVER_PID=$!
+          for i in $(seq 1 30); do curl -s -o /dev/null -w "%{http_code}" http://localhost:4173 | grep -q 200 && break; sleep 2; done
+          curl -sf -o /dev/null http://localhost:4173 || (kill $SERVER_PID 2>/dev/null; exit 1)
+          cd playwright-e2e && npx playwright test
+          EXIT=$?
+          kill $SERVER_PID 2>/dev/null || true
+          exit $EXIT
+        env:
+          BASE_URL: http://localhost:4173
+          E2E_USERNAME: ${{ secrets.E2E_USERNAME }}
+          E2E_PASSWORD: ${{ secrets.E2E_PASSWORD }}
+
+  # Optional: add a deploy job that runs only when build-and-test succeeds.
+  # deploy:
+  #   needs: build-and-test
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/main'
+  #   steps:
+  #     - run: echo "Deploy step - add your deployment here"
