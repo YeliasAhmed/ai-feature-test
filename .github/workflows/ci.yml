@@ -40,14 +40,14 @@ jobs:
         run: |
           npm run preview &
           SERVER_PID=$!
-          for i in $(seq 1 30); do curl -s -o /dev/null -w "%{http_code}" http://localhost:4173 | grep -q 200 && break; sleep 2; done
-          curl -sf -o /dev/null http://localhost:4173 || (kill $SERVER_PID 2>/dev/null; exit 1)
+          for i in $(seq 1 30); do curl -s -o /dev/null -w "%{http_code}" http://localhost:5004 | grep -q 200 && break; sleep 2; done
+          curl -sf -o /dev/null http://localhost:5004 || (kill $SERVER_PID 2>/dev/null; exit 1)
           cd playwright-e2e && npx playwright test
           EXIT=$?
           kill $SERVER_PID 2>/dev/null || true
           exit $EXIT
         env:
-          BASE_URL: http://localhost:4173
+          BASE_URL: http://localhost:5004
           E2E_USERNAME: ${{ secrets.E2E_USERNAME }}
           E2E_PASSWORD: ${{ secrets.E2E_PASSWORD }}
 
