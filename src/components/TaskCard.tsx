@@ -191,7 +191,7 @@ export function TaskCard({ task, onHighlightSnippets }: TaskCardProps) {
                     <Badge variant="outline" className="text-xs border-border">AI Suggested</Badge>
                   )}
                   {task.clickup_destination.selected_by_user && (
-                    <Badge variant="outline" className="text-xs border-border">User Selected</Badge>
+                    <Badge variant="outline" className="text-xs border-border">User Selected Destination</Badge>
                   )}
                 </div>
               </div>
